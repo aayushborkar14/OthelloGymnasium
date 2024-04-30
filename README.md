@@ -1,4 +1,4 @@
-<img src="imgs/ScreenHumanAnsi.png">  
+<img src="othello_ai/imgs/ScreenHumanAnsi.png">  
 
 # Gymnasium Othello Environment
 
