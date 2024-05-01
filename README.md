@@ -54,9 +54,8 @@ source bin/activate
 pip install gymnasium[classic-control]
 ```
 ### Download the OthelloGymnasium Package and install it locally
-Browse the url https://github.com/pghedini/OthelloGymnasium 
-from "Code", Download zip file 
-unpack zip file in your working directory 
+Browse the url https://github.com/pghedini/OthelloGymnasium and download zip file. 
+Unpack the zip file in your working directory. 
 ```
 unzip OthelloGymnasium-main.zip
 ```
