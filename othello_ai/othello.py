@@ -75,30 +75,64 @@ class OthelloEnv(gymnasium.Env):
 
     @property
     def get_observation(self):
+        """
+        Interface Property: get_observation
+        
+        Get state of the current Board
+        """
         return self._get_obs()
 
     @property
     def get_player_turn(self):
+        """
+        Interface Property: get_player_turn
+        
+        Get the color who have to make the next move
+        """
         return self.player_turn
 
     @property
     def get_terminated(self):
+        """
+        Interface Property: get_termninated
+        
+        it returns True if the current game is terminated
+        """
         return self.terminated
 
     @property
     def get_possible_moves(self):
+        """
+        Interface Property: get_possible_moves
+        
+        it returns returns the list of possibile moves
+        """
         return self.possible_moves
 
     @property
     def get_board_size(self):
+        """
+        Interface Property: get_board_size
+        
+        it returns returns the size of the current board
+        """
         return self.board_size
 
     @property
     def n_players(self):
+        """
+        Interface Property: n_players
+        
+        it returns returns the number of players
+        """
         return 2
 
     def reset(self, seed=None, options=None):
         """
+        Interface Method: reset()
+
+        Compliant to GYMNASIUM.reset()
+
         options parameter not implemented
         seed    parameter not implemented
         """
@@ -112,6 +146,11 @@ class OthelloEnv(gymnasium.Env):
         return self._get_obs(), info
 
     def step(self, action):
+        """
+        Interface Method: step()
+
+        Compliant to GYMNASIUM.step()
+        """
 
         # Apply action.
         if self.terminated:
@@ -167,12 +206,24 @@ class OthelloEnv(gymnasium.Env):
         return self._get_obs(), reward, self.terminated, False, self._get_info()
 
     def render(self):
+        """
+        Interface Method: render()
+
+        Compliant to GYMNASIUM.render()
+        """
+
         if self.render_mode == 'ansi':
             self.print_board()
         else:
             self._render_frame()
 
     def close(self):
+        """
+        Interface Method: close()
+
+        Compliant to GYMNASIUM.close()
+        """
+
         if self.viewer is not None:
             pygame.display.quit()
             pygame.quit()
@@ -181,6 +232,10 @@ class OthelloEnv(gymnasium.Env):
             pygame.quit()
 
     def _reset_board(self):
+        """
+        Auxiliary Method: _reset_board()
+        """
+
         board_state = np.zeros([self.board_size] * 2, dtype=int)
         center_row_ix = center_col_ix = self.board_size // 2
         board_state[center_row_ix - 1][center_col_ix - 1] = self.WHITE_DISK
@@ -189,10 +244,42 @@ class OthelloEnv(gymnasium.Env):
         board_state[center_row_ix - 1][center_col_ix] = self.BLACK_DISK
         return board_state
 
+    def _get_obs(self):
+        """
+        Auxiliary Method: _get_obs()
+        """
+
+        state = self.board_state
+        if self.possible_actions_in_obs:
+            grid_of_possible_moves = np.zeros(self.board_size ** 2, dtype=bool)
+            grid_of_possible_moves[self.possible_moves] = True
+            var_temp = np.concatenate([np.expand_dims(state, axis=0),
+                                   grid_of_possible_moves.reshape(
+                                       [1, self.board_size, self.board_size])],
+                                  axis=0)
+            var_temp = var_temp.astype("float32")
+            return var_temp
+        else:
+            state = state.astype("float32")
+            return state
+
+    def _get_info(self):
+        """
+        Auxiliary Method: _get_info()
+        """
+
+        white_cnt, black_cnt = self.count_disks()
+        return { "white_disks": white_cnt, "black_disks": black_cnt}
+
     def get_num_killed_enemy(self, board, x, y, delta_x, delta_y):
-        # We overload self.WHITE_DISK to be our disk, and self.BLACK_DISK to be enemies.
+        """
+        Auxiliary Method: get_num_killed_enemy()
+        """
+
+        # We overload self.WHITE_DISK to be our disk
+        # and self.BLACK_DISK to be enemies.
         # (x, y) is a valid position if the following pattern exists:
-        #    "(x, y), self.BLACK_DISK, ..., self.BLACK_DISK, self.WHITE_DISK"
+        # "(x, y), self.BLACK_DISK, ..., self.BLACK_DISK, self.WHITE_DISK"
 
         next_x = x + delta_x
         next_y = y + delta_y
@@ -230,6 +317,10 @@ class OthelloEnv(gymnasium.Env):
             return cnt
 
     def get_possible_actions(self, board=None):
+        """
+        Auxiliary Method: get_possible_actions()
+        """
+
         actions = []
         if board is None:
             if self.player_turn == self.WHITE_DISK:
@@ -262,6 +353,10 @@ class OthelloEnv(gymnasium.Env):
         return actions
 
     def print_board(self, print_valid_moves=True):
+        """
+        Auxiliary Method: print_board()
+        """
+
         valid_actions = self.get_possible_actions()
 
         if print_valid_moves:
@@ -291,23 +386,13 @@ class OthelloEnv(gymnasium.Env):
 
         print('-' * 10)
 
-    def _get_obs(self):
-        state = self.board_state
-        if self.possible_actions_in_obs:
-            grid_of_possible_moves = np.zeros(self.board_size ** 2, dtype=bool)
-            grid_of_possible_moves[self.possible_moves] = True
-            var_temp = np.concatenate([np.expand_dims(state, axis=0),
-                                   grid_of_possible_moves.reshape(
-                                       [1, self.board_size, self.board_size])],
-                                  axis=0)
-            var_temp = var_temp.astype("float32")
-            return var_temp
-        else:
-            state = state.astype("float32")
-            return state
-
     def set_board_state(self, board_state, perspective=1):
-        """Force setting the board state, necessary in model-based RL."""
+        """
+        Auxiliary Method: set_board_state()
+
+        Force setting the board state, necessary in model-based RL
+
+        """
         if np.ndim(board_state) > 2:
             state = board_state[0]
         else:
@@ -318,6 +403,10 @@ class OthelloEnv(gymnasium.Env):
             self.board_state = -np.array(state)
 
     def update_board(self, action):
+        """
+        Auxiliary Method: update_board()
+        """
+
         x = action // self.board_size
         y = action % self.board_size
 
@@ -339,15 +428,27 @@ class OthelloEnv(gymnasium.Env):
             self.board_state = -self.board_state
 
     def set_player_turn(self, turn):
+        """
+        Auxiliary Method: set_player_turn()
+        """
+
         self.player_turn = turn
         self.possible_moves = self.get_possible_actions()
 
     def count_disks(self):
+        """
+        Auxiliary Method: count_disks()
+        """
+
         white_cnt = (self.board_state == self.WHITE_DISK).sum()
         black_cnt = (self.board_state == self.BLACK_DISK).sum()
         return white_cnt, black_cnt
 
     def determine_winner(self, sudden_death=False):
+        """
+        Auxiliary Method: determine_winner()
+        """
+
         self.terminated = True
         if sudden_death:
             if not self.mute:
@@ -377,14 +478,11 @@ class OthelloEnv(gymnasium.Env):
                     print('DRAW')
                 return self.NO_DISK
 
-    def _get_info(self):
-        white_cnt, black_cnt = self.count_disks()
-        return { "white_disks": white_cnt, "black_disks": black_cnt}
-
     def create_window(self):
         """
-        pygame auxiliary function: create_window()
+        PYGAME auxiliary function: create_window()
         """
+
         # Set up the drawing window
         screen = pygame.display.set_mode([self.CELL_DIM*(self.board_size),
                                           self.CELL_DIM*(self.board_size)])
@@ -402,8 +500,9 @@ class OthelloEnv(gymnasium.Env):
 
     def draw_board(self, screen):
         """
-        pygame auxiliary function: draw_board(screen)
+        PYGAME auxiliary function: draw_board(screen)
         """
+
         size = self.CELL_DIM*self.board_size
         canvas = pygame.Surface((size, size))
         # Fill the background
@@ -429,8 +528,9 @@ class OthelloEnv(gymnasium.Env):
 
     def draw_frame(self, screen):
         """
-        pygame auxiliary function: draw_frame(screen)
+        PYGAME auxiliary function: draw_frame(screen)
         """
+
         pygame.draw.rect(screen,
                          self.WHITE,
                          pygame.Rect((self.board_size+1)*self.CELL_DIM,
@@ -447,8 +547,9 @@ class OthelloEnv(gymnasium.Env):
 
     def draw_token(self, screen, x,y,color):
         """
-        pygame auxiliary function: draw_token(screen, x, y, color)
+        PYGAME auxiliary function: draw_token(screen, x, y, color)
         """
+
         dim_x = x + 1
         dim_y = y + 1
 
@@ -461,8 +562,9 @@ class OthelloEnv(gymnasium.Env):
 
     def draw_position(self, screen, x,y,color, text):
         """
-        pygame auxiliary function: draw_position(screen, x, y, color, text)
+        PYGAME auxiliary function: draw_position(screen, x, y, color, text)
         """
+
         dim_x = x + 1
         dim_y = y + 1
         font = pygame.font.SysFont('Arial', 12)
@@ -478,8 +580,9 @@ class OthelloEnv(gymnasium.Env):
 
     def _render_frame(self):
         """
-        pygame auxiliary function: _render_frame()
+        PYGAME auxiliary function: _render_frame()
         """
+
         if self.render_mode == 'rgb_array':
             pygame.init()
             canvas = pygame.Surface((self.CELL_DIM*(self.board_size + 2),
