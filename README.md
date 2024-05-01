@@ -2,14 +2,14 @@
 
 # Gymnasium Othello Environment
 
-This repository contains an implementation of [Othello](https://en.wikipedia.org/wiki/Othello) with OpenAI [Gymnasium](https://gymnasium.farama.org/index.html) interfaces. This environment is for researchers and engineers who are interested in developing model-based RL algorithms.
+This repository contains an implementation of [Othello](https://en.wikipedia.org/wiki/Othello) with OpenAI [Gymnasium](https://gymnasium.farama.org/index.html) interfaces. This environment is for researchers and engineers who are interested in developing model-based Artificial Intelligence Reinforced Learning algorithms.
 
-We provide several simple baselines:
-1. Random policy
-2. Greedy policy
+Several simple ready baselines are provided:
+1. Random policy (random moves)
+2. Greedy policy (max number of opponent's pieces captured)
 3. [Maximin](https://en.wikipedia.org/wiki/Minimax) policy
-4. Human policy
-in order to explain how to use the basic env to experiment with RL algorithms.
+4. Human policy (manual move)
+which may be used to experiment with RL algorithms.
 
 ## Basic Usage
 
@@ -44,7 +44,7 @@ python run_ai.py --protagonist='maximin' --opponent='rand' --board-size=6 --rand
 
 ## Local Installation
 ### Create a virtual env based on Python 3.11
-Install Python 3.11 in your local machine if not existent.
+Install Python 3.11 - GYMNASIUM most recent python version supported - in your local machine, if not existent, and create a virtual env:
 ```
 mkdir gym
 python3.11 -m venv gym
@@ -60,9 +60,6 @@ Browse the url https://github.com/pghedini/OthelloGymnasium and download zip fil
 Unpack the zip file in your working directory. 
 ```
 unzip OthelloGymnasium-main.zip
-```
-### Install the OthelloGymnasium package locally
-```
 pip install -e OthelloGymnasium-main
 ```
 ### Run the start.sh bash script in order to try the installed package
@@ -75,21 +72,21 @@ To use the package (for a complete example take a look at run_ai.py):
 ```
 import gymnasium
 import othello_ai
-env = gymnasium.make('othello_ai/Othello-v0', render_mode='ansi', board_size=6, render_in_styep=True)
-## start a new game
+env = gymnasium.make('othello_ai/Othello-v0', render_mode='ansi', board_size=6)
+# start a new game
 env.reset()
-# next to move
+# get the color next to move
 next_move = lambda x: "BLACK" if x == -1 else "WHITE"
 next_move(env.unwrapped.env.unwrapped.player_turn)
+...
 ```
 
 ## Citation
-Please use this BibTeX to cite this repository in your publications:
-This work is based on the code by Lerry Tang you can find at https://github.com/lerrytang/GymOthelloEnv.
-The code was adapted to [PYGAME](https://www.pygame.org) for rendering and to recent implementations of [GYMNASIUM](https://gymnasium.farama.org/index.html) 
+This work is based on the code by Lerry Tang, which can find at https://github.com/lerrytang/GymOthelloEnv.
+The code has been profoundly rewritten to adapt it to recent versions of [GYMNASIUM](https://gymnasium.farama.org/index.html) and to provide it with a [PYGAME-based](https://www.pygame.org) graphic interface.
 
 ```
-@misc{gymnasiumothelloenv,
+@misc{othellogymnasium,
   author = {Pierfrancesco Ghedini},
   title = {OthelloGymnassium},
   year = {2024},
