@@ -40,11 +40,36 @@ python run_ai.py --protagonist='maximin' --opponent='rand' --board-size=6 --rand
 ```
 See `run_ai.py` for examples how to use the environment to integrate your agents.
 
-## How to integrate with GYMNASIUM
-To create la package:
+## Local Installation
+# Create a virtual env based on Python 3.11
+Install Python 3.11 in your local machine if not existent.
 ```
-pip install -e othello_ng
+mkdir gym
+python3.11 -m venv gym
+cd gym
+source bin/activate
 ```
+# Install GYMNASIUM and related classic controls
+```
+pip install gymnasium[classic-control]
+```
+# Download the OthelloGymnasium Package and install it locally
+Browse the url https://github.com/pghedini/OthelloGymnasium
+from "Code", Download zip file
+unpack zip file in your working directory
+```
+unzip OthelloGymnasium-main.zip
+```
+# Install the Python package
+```
+pip install -e OthelloGymnasium-main
+```
+# Run the start.sh bash script in order to try the installed package
+```
+cd OthelloGymnasium-main/othello_ai
+bash start.sh
+```
+## Use the package in interactive mode
 To use the package (for a complete example take a look at run_ai.py):
 ```
 import gymnasium
@@ -55,11 +80,8 @@ env.reset()
 # next to move
 next_move = lambda x: "BLACK" if x == -1 else "WHITE"
 next_move(env.unwrapped.env.unwrapped.player_turn)
-# possible moves
-env.unwrapped.possible_moves
-# number of players
-env.unwrapped.n_players
 ```
+
 ## Citation
 Please use this BibTeX to cite this repository in your publications:
 This work is based on the code by Lerry Tang you can find at https://github.com/lerrytang/GymOthelloEnv.
