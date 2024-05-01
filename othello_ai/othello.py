@@ -213,7 +213,7 @@ class OthelloEnv(gymnasium.Env):
         """
 
         if self.render_mode == 'ansi':
-            self.print_board()
+            return self.print_board()
         else:
             self._render_frame()
 
@@ -368,11 +368,13 @@ class OthelloEnv(gymnasium.Env):
         else:
             board = self.board_state
 
-        print('Turn: {}'.format(
-            'WHITE' if self.player_turn == self.WHITE_DISK else 'BLACK'))
-        print('Valid actions: {}'.format(valid_actions))
+        strBoard = 'Turn: {}'.format(
+            'WHITE' if self.player_turn == self.WHITE_DISK else 'BLACK')
+
+        strBoard += '\nValid actions: {}'.format(valid_actions)
+
         for row in board:
-            strTmp = ""
+            strTmp = "\n"
             for el in row:
                 if el == -1:
                     strTmp += " BB ".rjust(5)
@@ -382,9 +384,11 @@ class OthelloEnv(gymnasium.Env):
                     strTmp += " WW ".rjust(5)
                 else:
                     strTmp += ("-" + str(el - 10).rjust(2) + "-").rjust(5)
-            print(strTmp)
+            strBoard += strTmp
 
-        print('-' * 10)
+        strBoard += '\n' + '-' * 10
+        print(strBoard)
+        return strBoard
 
     def set_board_state(self, board_state, perspective=1):
         """
