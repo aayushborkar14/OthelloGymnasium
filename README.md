@@ -2,7 +2,7 @@
 
 # Gymnasium Othello Environment
 
-This repository contains an implementation of [Othello](https://en.wikipedia.org/wiki/Othello) with OpenAI [Gymnasium](https://gymnasium.farama.org/index.html) interfaces. This environment is for researchers and engineers who are interested in developing model-based Artificial Intelligence Reinforced Learning algorithms.
+This repository contains an implementation of OTHELLO - often also called REVERSI - with OpenAI [Gymnasium](https://gymnasium.farama.org/index.html) interfaces. This environment is for researchers and engineers who are interested in developing model-based Artificial Intelligence Reinforced Learning algorithms.
 
 Several simple ready baselines are provided:
 1. Random policy (random moves)
@@ -68,7 +68,8 @@ cd OthelloGymnasium-main/othello_ai
 bash start.sh
 ```
 ## Use the package in interactive mode
-To use the package (for a complete example take a look at run_ai.py):
+To use the package in interactive mode:
+- run the python interpreter in your virtual env and execute...
 ```
 import gymnasium
 import othello_ai
@@ -80,6 +81,7 @@ next_move = lambda x: "BLACK" if x == -1 else "WHITE"
 next_move(env.unwrapped.env.unwrapped.player_turn)
 ...
 ```
+For a complete usage example, inspect the code in run_ai.py.
 
 ## Citation
 This work is based on the code by Lerry Tang, which can find at https://github.com/lerrytang/GymOthelloEnv.
