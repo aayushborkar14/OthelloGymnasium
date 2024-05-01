@@ -41,7 +41,7 @@ python run_ai.py --protagonist='maximin' --opponent='rand' --board-size=6 --rand
 See `run_ai.py` for examples how to use the environment to integrate your agents.
 
 ## Local Installation
-# Create a virtual env based on Python 3.11
+### Create a virtual env based on Python 3.11
 Install Python 3.11 in your local machine if not existent.
 ```
 mkdir gym
@@ -49,22 +49,22 @@ python3.11 -m venv gym
 cd gym
 source bin/activate
 ```
-# Install GYMNASIUM and related classic controls
+### Install GYMNASIUM and related classic controls
 ```
 pip install gymnasium[classic-control]
 ```
-# Download the OthelloGymnasium Package and install it locally
+### Download the OthelloGymnasium Package and install it locally
 Browse the url https://github.com/pghedini/OthelloGymnasium
 from "Code", Download zip file
 unpack zip file in your working directory
 ```
 unzip OthelloGymnasium-main.zip
 ```
-# Install the Python package
+### Install the OthelloGymnasium package locally
 ```
 pip install -e OthelloGymnasium-main
 ```
-# Run the start.sh bash script in order to try the installed package
+### Run the start.sh bash script in order to try the installed package
 ```
 cd OthelloGymnasium-main/othello_ai
 bash start.sh
