@@ -78,8 +78,22 @@ env = gymnasium.make('othello_ai/Othello-v0', render_mode='ansi', board_size=6)
 env.reset()
 # get the color next to move
 next_move = lambda x: "BLACK" if x == -1 else "WHITE"
-next_move(env.unwrapped.env.unwrapped.player_turn)
-...
+next_move(env.unwrapped.player_turn)
+# get possible moves
+env.unwrapped.get_possible_moves
+# move
+env.step(8)
+# get the color next to move
+next_move(env.unwrapped.player_turn)
+# get possible moves
+env.unwrapped.get_possible_moves
+# move
+env.step(7)
+# move till the game end...
+# ...
+# close the env when finished
+env.close()
+
 ```
 For a complete usage example, inspect the code in run_ai.py.
 
