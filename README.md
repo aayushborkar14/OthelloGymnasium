@@ -74,8 +74,12 @@ To use the package in interactive mode:
 import gymnasium
 import othello_ai
 env = gymnasium.make('othello_ai/Othello-v0', render_mode='ansi', board_size=6)
+# if you choose 'human' render_mode, use env.render() to display board 
 # start a new game
 env.reset()
+#
+# env.render() # to eventually display board
+#
 # get the color next to move
 next_move = lambda x: "BLACK" if x == -1 else "WHITE"
 next_move(env.unwrapped.player_turn)
