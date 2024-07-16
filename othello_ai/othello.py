@@ -601,7 +601,7 @@ class OthelloEnv(gymnasium.Env):
 
             color = None
             if self.player_turn == self.WHITE_DISK:
-                color = WHITE
+                color = self.WHITE
             else:
                 color = self.BLACK
 
