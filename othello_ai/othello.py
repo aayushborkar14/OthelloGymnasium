@@ -25,7 +25,7 @@ class OthelloEnv(gymnasium.Env):
 
         # Locals
         self.CELL_DIM = 50
-        self.BACK_COLOR =(0,255,0)
+        self.BACK_COLOR = (70,156,46)
         self.BLACK = (0,0,0)
         self.WHITE = (255,255,255)
 
@@ -510,7 +510,7 @@ class OthelloEnv(gymnasium.Env):
         size = self.CELL_DIM*self.board_size
         canvas = pygame.Surface((size, size))
         # Fill the background
-        screen.fill(self.WHITE)
+        screen.fill(self.BLACK)
         
         pygame.draw.rect(screen,
                          self.BACK_COLOR,
@@ -522,7 +522,7 @@ class OthelloEnv(gymnasium.Env):
             for i in range(0, self.board_size):
                 # Draw rect
                 pygame.draw.rect(screen,
-                                 self.WHITE,
+                                 self.BLACK,
                                  pygame.Rect(i*self.CELL_DIM,
                                              j*self.CELL_DIM,
                                              (i+1)*self.CELL_DIM,
@@ -589,8 +589,8 @@ class OthelloEnv(gymnasium.Env):
 
         if self.render_mode == 'rgb_array':
             pygame.init()
-            canvas = pygame.Surface((self.CELL_DIM*(self.board_size + 2),
-                                     self.CELL_DIM*(self.board_size + 2)))
+            canvas = pygame.Surface((self.CELL_DIM*(self.board_size) + 2,
+                                     self.CELL_DIM*(self.board_size) + 2))
             self.draw_board(canvas)
             for i in range(self.board_size):
                 for j in range(self.board_size):
