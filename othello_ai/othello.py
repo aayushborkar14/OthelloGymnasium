@@ -215,7 +215,7 @@ class OthelloEnv(gymnasium.Env):
         if self.render_mode == 'ansi':
             return self.print_board()
         else:
-            self._render_frame()
+            return self._render_frame()
 
     def close(self):
         """
